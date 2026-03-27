@@ -52,3 +52,13 @@ model Prescription {
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 }
+
+model Medication {
+  id      Int     @id     @default(autoincrement())
+  name    String  @unique
+}
+
+model Dosage {
+  id      Int     @id     @default(autoincrement())
+  value   String  @unique
+}

@@ -32,3 +32,13 @@ export type Appointment = Prisma.AppointmentModel
  * 
  */
 export type Prescription = Prisma.PrescriptionModel
+/**
+ * Model Medication
+ * 
+ */
+export type Medication = Prisma.MedicationModel
+/**
+ * Model Dosage
+ * 
+ */
+export type Dosage = Prisma.DosageModel

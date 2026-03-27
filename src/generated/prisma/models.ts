@@ -11,4 +11,6 @@
 export type * from './models/Patient'
 export type * from './models/Appointment'
 export type * from './models/Prescription'
+export type * from './models/Medication'
+export type * from './models/Dosage'
 export type * from './commonInputTypes'

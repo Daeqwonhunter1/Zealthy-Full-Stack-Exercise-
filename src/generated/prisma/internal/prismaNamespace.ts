@@ -386,7 +386,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Patient: 'Patient',
   Appointment: 'Appointment',
-  Prescription: 'Prescription'
+  Prescription: 'Prescription',
+  Medication: 'Medication',
+  Dosage: 'Dosage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "patient" | "appointment" | "prescription"
+    modelProps: "patient" | "appointment" | "prescription" | "medication" | "dosage"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +630,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Medication: {
+      payload: Prisma.$MedicationPayload<ExtArgs>
+      fields: Prisma.MedicationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MedicationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MedicationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload>
+        }
+        findFirst: {
+          args: Prisma.MedicationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MedicationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload>
+        }
+        findMany: {
+          args: Prisma.MedicationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload>[]
+        }
+        create: {
+          args: Prisma.MedicationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload>
+        }
+        createMany: {
+          args: Prisma.MedicationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MedicationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload>[]
+        }
+        delete: {
+          args: Prisma.MedicationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload>
+        }
+        update: {
+          args: Prisma.MedicationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload>
+        }
+        deleteMany: {
+          args: Prisma.MedicationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MedicationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MedicationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload>[]
+        }
+        upsert: {
+          args: Prisma.MedicationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MedicationPayload>
+        }
+        aggregate: {
+          args: Prisma.MedicationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMedication>
+        }
+        groupBy: {
+          args: Prisma.MedicationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MedicationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MedicationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MedicationCountAggregateOutputType> | number
+        }
+      }
+    }
+    Dosage: {
+      payload: Prisma.$DosagePayload<ExtArgs>
+      fields: Prisma.DosageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DosageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DosageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload>
+        }
+        findFirst: {
+          args: Prisma.DosageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DosageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload>
+        }
+        findMany: {
+          args: Prisma.DosageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload>[]
+        }
+        create: {
+          args: Prisma.DosageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload>
+        }
+        createMany: {
+          args: Prisma.DosageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DosageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload>[]
+        }
+        delete: {
+          args: Prisma.DosageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload>
+        }
+        update: {
+          args: Prisma.DosageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload>
+        }
+        deleteMany: {
+          args: Prisma.DosageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DosageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DosageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload>[]
+        }
+        upsert: {
+          args: Prisma.DosageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DosagePayload>
+        }
+        aggregate: {
+          args: Prisma.DosageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDosage>
+        }
+        groupBy: {
+          args: Prisma.DosageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DosageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DosageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DosageCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -704,6 +854,22 @@ export const PrescriptionScalarFieldEnum = {
 } as const
 
 export type PrescriptionScalarFieldEnum = (typeof PrescriptionScalarFieldEnum)[keyof typeof PrescriptionScalarFieldEnum]
+
+
+export const MedicationScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type MedicationScalarFieldEnum = (typeof MedicationScalarFieldEnum)[keyof typeof MedicationScalarFieldEnum]
+
+
+export const DosageScalarFieldEnum = {
+  id: 'id',
+  value: 'value'
+} as const
+
+export type DosageScalarFieldEnum = (typeof DosageScalarFieldEnum)[keyof typeof DosageScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -853,6 +1019,8 @@ export type GlobalOmitConfig = {
   patient?: Prisma.PatientOmit
   appointment?: Prisma.AppointmentOmit
   prescription?: Prisma.PrescriptionOmit
+  medication?: Prisma.MedicationOmit
+  dosage?: Prisma.DosageOmit
 }
 
 /* Types for Logging */

@@ -53,7 +53,9 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Patient: 'Patient',
   Appointment: 'Appointment',
-  Prescription: 'Prescription'
+  Prescription: 'Prescription',
+  Medication: 'Medication',
+  Dosage: 'Dosage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -109,6 +111,22 @@ export const PrescriptionScalarFieldEnum = {
 } as const
 
 export type PrescriptionScalarFieldEnum = (typeof PrescriptionScalarFieldEnum)[keyof typeof PrescriptionScalarFieldEnum]
+
+
+export const MedicationScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type MedicationScalarFieldEnum = (typeof MedicationScalarFieldEnum)[keyof typeof MedicationScalarFieldEnum]
+
+
+export const DosageScalarFieldEnum = {
+  id: 'id',
+  value: 'value'
+} as const
+
+export type DosageScalarFieldEnum = (typeof DosageScalarFieldEnum)[keyof typeof DosageScalarFieldEnum]
 
 
 export const SortOrder = {
