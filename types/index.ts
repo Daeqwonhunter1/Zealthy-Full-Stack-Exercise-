@@ -1,3 +1,5 @@
+
+//
 export type Appointment = {
   id: number;
   provider: string;
@@ -20,6 +22,41 @@ export type Patient = {
   appointments: Appointment[];
   prescriptions: Prescription[];
 }
+
+//Db 
+
+export type DbAppointment = {
+  id: number;
+  patientId: number;
+  provider: string;
+  datetime: Date;
+  repeat: string;
+  repeatEndsOn: Date | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type DbPrescription = {
+  id: number;
+  patientId: number;
+  medication: string;
+  dosage: string;
+  quantity: number;
+  refillOn: Date;
+  refillSchedule: string;
+  refillEndsOn: Date | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type DbPatient = {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  appointments: DbAppointment[];
+  prescriptions: DbPrescription[];
+};
 
 export type PatientCardProps = {
   patient: Patient

@@ -1,28 +1,12 @@
-import { Patient } from "@/types"
 import Sidebar from "@/components/admin/Sidebar";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PatientTable from "@/components/admin/PatientTable";
-import axios from "axios"
-
-
-
-async function getPatients(): Promise<Patient[]> {
-
-    // Uses axios to get all Patients 
-    const response = await axios.get("http://localhost:3000/api/patients")
-
-    // If the response status is not 200 then throw an Error 
-    if (response.status !== 200) {
-      throw new Error("Failed to fetch patients");
-    }
-    
-    return response.data
-}
+import { getPatientsFromDb } from "@/lib/server-data";
 
 
 export default async function Admin() {
 
-    const patients = await getPatients();
+    const patients = await getPatientsFromDb();
 
     return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
