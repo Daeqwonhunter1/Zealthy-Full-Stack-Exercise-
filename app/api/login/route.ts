@@ -1,35 +1,59 @@
 import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { setPatientSession } from "@/lib/auth";
+import { z } from "zod";
+
+
+// Input Validation
+const loginSchema = z.object({
+  email: z.email("Valid email is required"),
+  password: z.string().min(1, "Password is required"),
+});
+
+
 
 export async function POST(req: Request) {
 
     try {
         const body = await req.json();
-        console.log("BODY", body);
+        const parsed = loginSchema.safeParse(body);
 
-        const { email, password } = body;
-
-        if (!email || !password) {
+        if (!parsed.success) {
             return NextResponse.json(
-                { success: false, message: "Email and password are required" },
+                { message: parsed.error.issues[0]?.message || "Invalid login data" },
                 { status: 400 }
-            )
+            );
         }
 
-        if(email && password){
-            return NextResponse.json({
-                success: true,
-                user: {
-                    id: 1,
-                    name: "Test User",
-                    email,
-                },
-            });
+        const { email, password } = parsed.data;
+
+        const patient = await db.patient.findUnique({
+            where: { email },
+        });
+
+        if (!patient || patient.password !== password) {
+            return NextResponse.json(
+                { message: "Invalid email or password" },
+                { status: 401 }
+            );
         }
+
+        await setPatientSession(patient.id);
+
+        return NextResponse.json({
+            success: true,
+            patient: {
+                id: patient.id,
+                name: patient.name,
+                email: patient.email,
+            },
+        });
+
     } catch (error) {
         console.error("LOGIN ROUTE ERROR:", error);
 
         return NextResponse.json(
-            { success: false, message: "Server Error"},
+            { message: "Failed to login"},
             { status: 500}
         );
     }

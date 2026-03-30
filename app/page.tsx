@@ -1,47 +1,20 @@
-"use client";
+import PatientLoginForm from "@/components/portal/PatientLoginForm";
 
-
-import { useState} from "react"
-import type { SubmitEvent } from "react";
-import axios from "axios" 
-import { LoginResponse } from "@/types";
-
-
-export default function Home() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-
-  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post<LoginResponse>("/api/login", {
-        email,
-        password,
-      });
-      console.log("LOGIN SUCCESS:", response.data);
-
-    }catch (error) {
-      console.error("LOGIN ERROR:", error)
-    }
-
-  }
-
+export default function HomePage() {
   return (
-     <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <button type="submit">Login</button>
-    </form>
+    <main className="min-h-screen bg-slate-50 px-4 py-12 text-slate-900">
+      <div className="mx-auto max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+        <div className="mb-6">
+          <h1 className="text-3xl font-semibold tracking-tight">
+            Patient Portal
+          </h1>
+          <p className="mt-2 text-sm text-slate-500">
+            Sign in to view appointments, prescriptions, and your patient info.
+          </p>
+        </div>
+
+        <PatientLoginForm />
+      </div>
+    </main>
   );
 }
