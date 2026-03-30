@@ -1,7 +1,7 @@
 import Sidebar from "@/components/admin/Sidebar";
 import AdminHeader from "@/components/admin/AdminHeader";
 import PatientTable from "@/components/admin/PatientTable";
-import { getPatientsFromDb } from "@/lib/server-data";
+import { getPatientsFromDb } from "@/components/HelperFunctions";
 
 
 export default async function Admin() {

@@ -1,54 +1,107 @@
 import { getPatientSessionId } from "@/lib/auth";
 import { Patient } from "@/types";
-import axios from "axios";
 import { db } from "@/lib/db";
 
-export async function getPatient(id:string): Promise<Patient> {
-    const response = await axios.get(`http://localhost:3000/api/patients/${id}`)
 
-    if (response.status !== 200) {
-        throw new Error("Failed to fetch patient");
-    }
-
-    return response.data;
+//Helper function, transforms prisma results before returning 
+function toPatientDTO(patient: any): Patient {
+  return {
+    id: patient.id,
+    name: patient.name,
+    email: patient.email,
+    password: patient.password,
+    appointments: patient.appointments.map((appt: any) => ({
+      id: appt.id,
+      provider: appt.provider,
+      datetime: appt.datetime.toISOString(),
+      repeat: appt.repeat,
+      repeatEndsOn: appt.repeatEndsOn
+        ? appt.repeatEndsOn.toISOString()
+        : null,
+    })),
+    prescriptions: patient.prescriptions.map((rx: any) => ({
+      id: rx.id,
+      medication: rx.medication,
+      dosage: rx.dosage,
+      quantity: rx.quantity,
+      refillOn: rx.refillOn.toISOString(),
+      refillSchedule: rx.refillSchedule,
+      refillEndsOn: rx.refillEndsOn
+        ? rx.refillEndsOn.toISOString()
+        : null,
+    })),
+  };
 }
 
+export async function getPatient(id: string): Promise<Patient> {
+  const patientId = Number(id);
+
+  if (!id || Number.isNaN(patientId)) {
+    throw new Error("Invalid patient id");
+  }
+
+  const patient = await db.patient.findUnique({
+    where: { id: patientId },
+    include: {
+      appointments: true,
+      prescriptions: true,
+    },
+  });
+
+  if (!patient) {
+    throw new Error("Patient not found");
+  }
+
+  return toPatientDTO(patient);
+}
 
 export async function getPatients(): Promise<Patient[]> {
-    const response = await axios.get("http://localhost:3000/api/patients")
+  const patients = await db.patient.findMany({
+    include: {
+      appointments: true,
+      prescriptions: true,
+    },
+    orderBy: {
+      id: "asc",
+    },
+  });
 
-    if (response.status !== 200) {
-      throw new Error("Failed to fetch patients");
-    }
-    
-    return response.data;
+  return patients.map(toPatientDTO);
 }
-
 
 export async function getRxOptions() {
-    const response = await axios.get("http://localhost:3000/api/options");
+  const medications = await db.medication.findMany({
+    orderBy: { name: "asc" },
+  });
 
-    if ( response.status !== 200) {
-        throw new Error ("Failed to fetch rx options")
-    }
-    return response.data;
+  const dosages = await db.dosage.findMany({
+    orderBy: { value: "asc" },
+  });
+
+  return {
+    medications,
+    dosages,
+  };
 }
 
+export async function getLoggedInPatient() {
+  const patientId = await getPatientSessionId();
 
-export async function getLoggedInPatient(){
-    const patientId = await getPatientSessionId();
-    
-    if (!patientId) {
-        return null;
-    }
+  if (!patientId) {
+    return null;
+  }
 
-    const patient = await db.patient.findUnique({
-        where: { id: patientId },
-        include: {
-            appointments: true,
-            prescriptions: true,
-        },
-    });
+  const patient = await db.patient.findUnique({
+    where: { id: patientId },
+    include: {
+      appointments: true,
+      prescriptions: true,
+    },
+  });
 
-  return patient;
+  if (!patient) {
+    return null;
+  }
+
+  return toPatientDTO(patient);
 }
